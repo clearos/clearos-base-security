@@ -1,4 +1,4 @@
-Name: clearos-base
+Name: clearos-base-security
 Version: 7.4.0
 Release: 1%{dist}
 Summary: ClearOS system base security driver.
@@ -24,18 +24,14 @@ mkdir -p -m 755 $RPM_BUILD_ROOT/etc/security/limits.d
 install -m 644 etc/logrotate.d/compliance $RPM_BUILD_ROOT/etc/logrotate.d/
 install -m 755 etc/security/limits.d/95-clearos.conf $RPM_BUILD_ROOT/etc/security/limits.d/
 
-#------------------------------------------------------------------------------
-# I N S T A L L  S C R I P T
-#------------------------------------------------------------------------------
-
 %post
-logger -p local6.notice -t installer "clearos-base - installing"
+logger -p local6.notice -t installer "clearos-base-security - installing"
 
 # Syslog customizations
 #----------------------
 
 if [ -z "`grep ^local5 /etc/rsyslog.conf`" ]; then
-    logger -p local5.notice -t installer "clearos-base - adding compliance log file to rsyslog"
+    logger -p local5.notice -t installer "clearos-base-security - adding compliance log file to rsyslog"
     echo "local5.*  /var/log/compliance" >> /etc/rsyslog.conf
     sed -i -e 's/[[:space:]]*\/var\/log\/messages/;local5.none \/var\/log\/messages/' /etc/rsyslog.conf
     /sbin/service rsyslog restart >/dev/null 2>&1
@@ -47,10 +43,10 @@ fi
 if [ -d /etc/selinux ]; then
     CHECK=`grep ^SELINUX= /etc/selinux/config 2>/dev/null | sed 's/.*=//'`
     if [ -z "$CHECK" ]; then
-        logger -p local6.notice -t installer "clearos-base - disabling SELinux with new configuration"
+        logger -p local6.notice -t installer "clearos-base-security - disabling SELinux with new configuration"
         echo "SELINUX=disabled" >> /etc/selinux/config
     elif [ "$CHECK" != "disabled" ]; then
-        logger -p local6.notice -t installer "clearos-base - disabling SELinux"
+        logger -p local6.notice -t installer "clearos-base-security - disabling SELinux"
         sed -i -e 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
     fi
 fi
@@ -59,7 +55,7 @@ fi
 #------------------------
 
 if [ $1 -eq 1 ]; then
-    logger -p local6.notice -t installer "clearos-base - enabling audit on boot"
+    logger -p local6.notice -t installer "clearos-base-security - enabling audit on boot"
     /sbin/chkconfig auditd on >/dev/null 2>&1
 fi
 
@@ -67,7 +63,7 @@ exit 0
 
 %preun
 if [ $1 -eq 0 ]; then
-    logger -p local6.notice -t installer "clearos-base - uninstalling"
+    logger -p local6.notice -t installer "clearos-base-security - uninstalling"
 fi
 
 %files
