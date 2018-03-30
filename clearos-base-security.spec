@@ -21,8 +21,8 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p -m 755 $RPM_BUILD_ROOT/etc/logrotate.d
 mkdir -p -m 755 $RPM_BUILD_ROOT/etc/security/limits.d
 
-install -m 644 etc/logrotate.d/compliance $RPM_BUILD_ROOT/etc/logrotate.d/
-install -m 755 etc/security/limits.d/95-clearos.conf $RPM_BUILD_ROOT/etc/security/limits.d/
+install -m 644 compliance $RPM_BUILD_ROOT/etc/logrotate.d/
+install -m 755 95-clearos.conf $RPM_BUILD_ROOT/etc/security/limits.d/
 
 %post
 logger -p local6.notice -t installer "clearos-base-security - installing"
