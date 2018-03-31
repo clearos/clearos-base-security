@@ -1,11 +1,13 @@
 Name: clearos-base-security
-Version: 7.4.0
+Version: 7.4.2
 Release: 1%{dist}
 Summary: ClearOS system base security driver.
 License: GPLv3 or later
 Group: Applications/System
 Source: %{name}-%{version}.tar.gz
 Requires: clearos-release >= 7
+Requires: audit
+Requires: selinux-policy-targeted
 Provides: system-base-security
 
 %description
